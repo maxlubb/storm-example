@@ -1,0 +1,6 @@
+## 本地模式
+localmodel: true
+## topo 信息
+topology.name: storm-example
+workers: 1
+## 其他配置..
