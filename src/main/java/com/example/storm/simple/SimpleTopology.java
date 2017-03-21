@@ -1,18 +1,18 @@
 package com.example.storm.simple;
 
-import backtype.storm.Config;
-import backtype.storm.LocalCluster;
-import backtype.storm.StormSubmitter;
-import backtype.storm.generated.AlreadyAliveException;
-import backtype.storm.generated.InvalidTopologyException;
-import backtype.storm.topology.TopologyBuilder;
-import backtype.storm.tuple.Fields;
 import com.example.storm.OutputBolt;
 import com.example.storm.SimpleBolt;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.math.NumberUtils;
-import org.yaml.snakeyaml.Yaml;
-import storm.kafka.KafkaSpout;
+import org.apache.storm.Config;
+import org.apache.storm.LocalCluster;
+import org.apache.storm.StormSubmitter;
+import org.apache.storm.generated.AlreadyAliveException;
+import org.apache.storm.generated.AuthorizationException;
+import org.apache.storm.generated.InvalidTopologyException;
+import org.apache.storm.shade.org.yaml.snakeyaml.Yaml;
+import org.apache.storm.topology.TopologyBuilder;
+import org.apache.storm.tuple.Fields;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -25,12 +25,12 @@ import java.util.Map;
  */
 public class SimpleTopology {
 
-    public static void main(String[] args) throws FileNotFoundException, AlreadyAliveException, InvalidTopologyException {
+    public static void main(String[] args) throws FileNotFoundException, AlreadyAliveException, InvalidTopologyException, AuthorizationException {
         SimpleTopology topology = new SimpleTopology();
         topology.submitTopology(args[0]);
     }
 
-    private void submitTopology(String configFile) throws FileNotFoundException, AlreadyAliveException, InvalidTopologyException {
+    private void submitTopology(String configFile) throws FileNotFoundException, AlreadyAliveException, InvalidTopologyException, AuthorizationException {
         Yaml yaml = new Yaml();
         Map<String,Object> stormConfig = yaml.loadAs(new FileInputStream(configFile),Map.class);
         boolean isLocal = BooleanUtils.toBoolean(stormConfig.get("localmodel").toString());

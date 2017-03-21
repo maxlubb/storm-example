@@ -1,22 +1,23 @@
 package com.example.storm.kafka;
 
-import backtype.storm.Config;
-import backtype.storm.LocalCluster;
-import backtype.storm.StormSubmitter;
-import backtype.storm.generated.AlreadyAliveException;
-import backtype.storm.generated.InvalidTopologyException;
-import backtype.storm.spout.SchemeAsMultiScheme;
-import backtype.storm.topology.TopologyBuilder;
-import backtype.storm.tuple.Fields;
 import com.example.storm.OutputBolt;
 import com.example.storm.SimpleBolt;
 import com.example.storm.util.MessageScheme;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.math.NumberUtils;
-import org.yaml.snakeyaml.Yaml;
-import storm.kafka.KafkaSpout;
-import storm.kafka.SpoutConfig;
-import storm.kafka.ZkHosts;
+import org.apache.storm.Config;
+import org.apache.storm.LocalCluster;
+import org.apache.storm.StormSubmitter;
+import org.apache.storm.generated.AlreadyAliveException;
+import org.apache.storm.generated.AuthorizationException;
+import org.apache.storm.generated.InvalidTopologyException;
+import org.apache.storm.kafka.KafkaSpout;
+import org.apache.storm.kafka.SpoutConfig;
+import org.apache.storm.kafka.ZkHosts;
+import org.apache.storm.shade.org.yaml.snakeyaml.Yaml;
+import org.apache.storm.spout.SchemeAsMultiScheme;
+import org.apache.storm.topology.TopologyBuilder;
+import org.apache.storm.tuple.Fields;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -29,7 +30,7 @@ import java.util.Map;
  */
 public class WithKafkaTopology {
 
-    public static void main(String[] args) throws FileNotFoundException, AlreadyAliveException, InvalidTopologyException {
+    public static void main(String[] args) throws FileNotFoundException, AlreadyAliveException, InvalidTopologyException, AuthorizationException {
         WithKafkaTopology topology = new WithKafkaTopology();
         // 提交topology 作业
         topology.submitTopology(args[0]);
@@ -39,7 +40,7 @@ public class WithKafkaTopology {
      *
      * @param configFile
      */
-    private void submitTopology(String configFile) throws FileNotFoundException, AlreadyAliveException, InvalidTopologyException {
+    private void submitTopology(String configFile) throws FileNotFoundException, AlreadyAliveException, InvalidTopologyException, AuthorizationException {
         Yaml yaml = new Yaml();
         Map<String,Object> stormConfig = yaml.loadAs(new FileInputStream(configFile),Map.class);
         boolean isLocal = BooleanUtils.toBoolean(stormConfig.get("localmodel").toString());

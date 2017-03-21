@@ -1,10 +1,10 @@
 package com.example.storm;
 
-import backtype.storm.task.TopologyContext;
-import backtype.storm.topology.BasicOutputCollector;
-import backtype.storm.topology.OutputFieldsDeclarer;
-import backtype.storm.topology.base.BaseBasicBolt;
-import backtype.storm.tuple.Tuple;
+import org.apache.storm.task.TopologyContext;
+import org.apache.storm.topology.BasicOutputCollector;
+import org.apache.storm.topology.OutputFieldsDeclarer;
+import org.apache.storm.topology.base.BaseBasicBolt;
+import org.apache.storm.tuple.Tuple;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,7 +15,7 @@ import java.util.Map;
  * Created by lubinbin on 15/12/29.
  * 模仿输出bolt,真实场景更多的是使用可持久化存储或消息队列等作为输出目标
  */
-public class OutputBolt extends BaseBasicBolt{
+public class OutputBolt extends BaseBasicBolt {
 
     private static Logger logger = LoggerFactory.getLogger(OutputBolt.class);
 
