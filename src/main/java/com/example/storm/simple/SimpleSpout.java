@@ -18,7 +18,6 @@ import java.util.Map;
  */
 public class SimpleSpout extends BaseRichSpout {
 
-    private final static Logger logger = LoggerFactory.getLogger(SimpleSpout.class);
     private SpoutOutputCollector collector = null;
 
     private int lineOffset = 0;

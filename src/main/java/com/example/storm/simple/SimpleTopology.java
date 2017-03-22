@@ -7,6 +7,7 @@ import backtype.storm.generated.AlreadyAliveException;
 import backtype.storm.generated.InvalidTopologyException;
 import backtype.storm.topology.TopologyBuilder;
 import backtype.storm.tuple.Fields;
+import com.alibaba.jstorm.client.ConfigExtension;
 import com.example.storm.OutputBolt;
 import com.example.storm.SimpleBolt;
 import org.apache.commons.lang3.BooleanUtils;
@@ -27,7 +28,7 @@ public class SimpleTopology {
 
     public static void main(String[] args) throws FileNotFoundException, AlreadyAliveException, InvalidTopologyException {
         SimpleTopology topology = new SimpleTopology();
-        topology.submitTopology(args[0]);
+        topology.submitTopology("/Users/lubinbin/workspace/storm-example/src/main/resources/storm-test.yaml");
     }
 
     private void submitTopology(String configFile) throws FileNotFoundException, AlreadyAliveException, InvalidTopologyException {
@@ -45,11 +46,11 @@ public class SimpleTopology {
         builder.setSpout(spoutName,new SimpleSpout(),1);
         builder.setBolt(simpleBoltName,new SimpleBolt(),1).shuffleGrouping(spoutName);
         builder.setBolt(outputBoltName,new OutputBolt(),1).fieldsGrouping(simpleBoltName,new Fields("key"));
-
         // config storm全局共享的config信息
         Config config = new Config();
         config.putAll(stormConfig);
         config.setNumWorkers(workers);
+        ConfigExtension.setUserDefinedLog4jConf(config, "jstorm.log4j.properties");
 
         if (isLocal) {
             LocalCluster cluster = new LocalCluster();
